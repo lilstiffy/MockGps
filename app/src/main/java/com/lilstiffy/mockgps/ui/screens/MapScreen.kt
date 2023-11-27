@@ -1,5 +1,6 @@
 package com.lilstiffy.mockgps.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -103,7 +104,7 @@ fun MapScreen(activity: MainActivity) {
                 .align(Alignment.BottomEnd),
             checked = isMocking,
             onCheckedChange = { checked ->
-                isMocking = activity.toggleMocking() ?: isMocking
+                isMocking = activity.toggleMocking()
             },
             colors = IconButtonDefaults.filledIconToggleButtonColors(
                 checkedContainerColor = ButtonRed, containerColor = ButtonGreen, contentColor = Color.White
@@ -127,6 +128,12 @@ fun MapScreen(activity: MainActivity) {
                 .fillMaxHeight(0.075f)
                 .fillMaxWidth(),
             onSearch = { searchTerm ->
+                // We don't want to support switching locations while already mocking
+                if (isMocking) {
+                    Toast.makeText(activity, "You can't search while mocking location", Toast.LENGTH_SHORT).show()
+                    return@SearchComponent
+                }
+
                 LocationHelper.geocoding(searchTerm) { foundLatLng ->
                     foundLatLng?.let {
                         markerPosition = it

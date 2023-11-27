@@ -30,7 +30,7 @@ object StorageManager {
         }
     }
 
-    var locationHistory: MutableList<LatLng>
+    private var locationHistory: MutableList<LatLng>
         get() {
             val json = pref.getString(KEY_HISTORY, "[]")
             val typeToken = object : TypeToken<MutableList<LatLng>>() {}

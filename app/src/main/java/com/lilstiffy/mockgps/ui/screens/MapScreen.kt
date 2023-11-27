@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.sharp.Close
 import androidx.compose.material.icons.sharp.PlayArrow
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.runtime.Composable
@@ -95,14 +97,13 @@ fun MapScreen(activity: MainActivity) {
         // Toggle button
         IconToggleButton(
             modifier = Modifier
-                .height(64.dp)
-                .width(64.dp)
+                .height(72.dp)
+                .width(72.dp)
                 .padding(8.dp)
                 .align(Alignment.BottomEnd),
             checked = isMocking,
             onCheckedChange = { checked ->
-                isMocking = checked
-                activity.toggleMocking()
+                isMocking = activity.toggleMocking() ?: isMocking
             },
             colors = IconButtonDefaults.filledIconToggleButtonColors(
                 checkedContainerColor = ButtonRed, containerColor = ButtonGreen, contentColor = Color.White
@@ -112,9 +113,9 @@ fun MapScreen(activity: MainActivity) {
                 Icon(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .width(20.dp)
-                        .height(20.dp),
-                    imageVector = if (!isMocking) Icons.Sharp.PlayArrow else Icons.Sharp.Close,
+                        .width(48.dp)
+                        .height(48.dp),
+                    imageVector = if (isMocking) Icons.Sharp.Close else Icons.Sharp.PlayArrow,
                     contentDescription = "status"
                 )
             }

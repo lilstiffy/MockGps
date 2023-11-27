@@ -80,21 +80,25 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun toggleMocking() {
+    fun toggleMocking(): Boolean {
         if (isBound && LocationHelper.hasPermission(this)) {
             mockLocationService?.toggleMocking()
             if (mockLocationService?.isMocking == true) {
                 Toast.makeText(this, "Mocking location...", Toast.LENGTH_SHORT).show()
                 VibratorService.vibrate()
+                return true
             } else if (mockLocationService?.isMocking == false) {
                 Toast.makeText(this, "Stopped mocking location...", Toast.LENGTH_SHORT).show()
                 VibratorService.vibrate()
+                return false
             }
         }
         else if (!isBound && LocationHelper.hasPermission(this))
             Toast.makeText(this, "Service not bound", Toast.LENGTH_SHORT).show()
         else
             Toast.makeText(this, "No Location permission", Toast.LENGTH_SHORT).show()
+
+        return false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

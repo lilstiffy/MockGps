@@ -28,15 +28,18 @@ object LocationHelper {
     }
 
     // Geocoding
-
     fun reverseGeocoding(location: LatLng): String? {
         val geocoder: Geocoder = Geocoder(MockGpsApp.shared.applicationContext)
 
         return null
     }
 
+    /**
+     * @param searchterm Search term the user wants to do a coordinate look up for
+     * @param result lambda containing [LatLng] object if a result was found from the Geocoding lookup.
+     */
     fun geocoding(searchterm: String, result: (LatLng?) -> Unit) {
-        val geocoder: Geocoder = Geocoder(MockGpsApp.shared.applicationContext)
+        val geocoder = Geocoder(MockGpsApp.shared.applicationContext)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             geocoder.getFromLocationName(

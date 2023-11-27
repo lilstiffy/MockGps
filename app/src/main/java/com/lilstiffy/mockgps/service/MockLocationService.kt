@@ -12,7 +12,9 @@ import android.os.Binder
 import android.os.IBinder
 import android.os.SystemClock
 import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
+import com.lilstiffy.mockgps.MockGpsApp
 import com.lilstiffy.mockgps.storage.StorageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -69,7 +71,7 @@ class MockLocationService : Service() {
             )
         }
 
-        // Will be added if not existing.
+        // Will be added to location history if not existing.
         StorageManager.addLocationToHistory(latLng)
 
         if (!isMocking) {
@@ -88,7 +90,9 @@ class MockLocationService : Service() {
         }
     }
 
-    private fun addTestProvider() {
+    private fun addTestProvider(): Boolean {
+        var successfullyAdded: Boolean
+
         val providerName = LocationManager.GPS_PROVIDER
         val requiresNetwork = true
         val requiresSatellite = false
@@ -100,22 +104,40 @@ class MockLocationService : Service() {
         val powerRequirement = ProviderProperties.POWER_USAGE_HIGH
         val accuracy = ProviderProperties.ACCURACY_FINE
 
-        locationManager.addTestProvider(
-            providerName,
-            requiresNetwork,
-            requiresSatellite,
-            requiresCell,
-            hasMonetaryCost,
-            supportsAltitude,
-            supportsSpeed,
-            supportsBearing,
-            powerRequirement,
-            accuracy
-        )
+        try {
+            locationManager.addTestProvider(
+                providerName,
+                requiresNetwork,
+                requiresSatellite,
+                requiresCell,
+                hasMonetaryCost,
+                supportsAltitude,
+                supportsSpeed,
+                supportsBearing,
+                powerRequirement,
+                accuracy
+            )
+            successfullyAdded = true
+            return successfullyAdded
+        } catch (se: SecurityException) {
+            val ctx = MockGpsApp.shared.applicationContext
+            GlobalScope.launch(Dispatchers.Main) {
+                Toast.makeText(
+                    ctx,
+                    "Mock location failed, you must set this app as your selected mock locations app.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            successfullyAdded = false
+            return successfullyAdded
+        }
     }
 
     private suspend fun mockLocation() {
-        addTestProvider()
+        val providerAdded = addTestProvider()
+        if (!providerAdded)
+            return
+
         locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true)
 
         while (isMocking) {

@@ -70,6 +70,9 @@ dependencies {
     // Google maps for Compose
     implementation("com.google.maps.android:maps-compose:4.3.0")
 
+    // Viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
     //Gson
     implementation("com.google.code.gson:gson:2.10.1")
 

@@ -2,6 +2,7 @@ package com.lilstiffy.mockgps.service
 
 import android.Manifest.permission.*
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import androidx.activity.ComponentActivity
@@ -28,10 +29,19 @@ object LocationHelper {
     }
 
     // Geocoding
-    fun reverseGeocoding(location: LatLng): String? {
+    fun reverseGeocoding(latLng: LatLng, result: (Address?) -> Unit) {
         val geocoder: Geocoder = Geocoder(MockGpsApp.shared.applicationContext)
 
-        return null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1) { response ->
+                val address = response.firstOrNull()
+                result(address)
+            }
+        } else {
+            val response = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            val address = response?.firstOrNull()
+            result(address)
+        }
     }
 
     /**

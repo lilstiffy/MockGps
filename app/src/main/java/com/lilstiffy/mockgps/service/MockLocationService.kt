@@ -22,8 +22,9 @@ import kotlinx.coroutines.launch
 
 class MockLocationService : Service() {
 
-    private companion object {
+    companion object {
         const val TAG = "MockLocationService"
+        var instance: MockLocationService? = null
     }
 
     var isMocking = false
@@ -147,7 +148,7 @@ class MockLocationService : Service() {
                 longitude = latLng.longitude
                 altitude = 12.5
                 time = System.currentTimeMillis()
-                accuracy = 10f
+                accuracy = 2f
                 elapsedRealtimeNanos = SystemClock.elapsedRealtimeNanos()
             }
 

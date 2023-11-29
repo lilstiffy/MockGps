@@ -5,12 +5,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
+import com.lilstiffy.mockgps.extensions.displayString
 import com.lilstiffy.mockgps.service.LocationHelper
 import com.lilstiffy.mockgps.service.MockLocationService
 import com.lilstiffy.mockgps.storage.StorageManager
 import com.lilstiffy.mockgps.ui.models.LocationEntry
 
-//TODO: Something is very broken here
 class MapViewModel : ViewModel() {
     var markerPosition: MutableState<LatLng> = mutableStateOf(StorageManager.getLatestLocation())
         private set
@@ -18,7 +18,6 @@ class MapViewModel : ViewModel() {
         private set
 
     var markerPositionIsFavorite: MutableState<Boolean> = mutableStateOf(false)
-
 
     fun updateMarkerPosition(latLng: LatLng) {
         markerPosition.value = latLng
@@ -37,13 +36,14 @@ class MapViewModel : ViewModel() {
     }
 
     private fun checkIfFavorite() {
-        markerPositionIsFavorite.value = StorageManager.containsFavoriteEntry(currentLocationEntry())
+        val currentLocationEntry = currentLocationEntry()
+        markerPositionIsFavorite.value = StorageManager.containsFavoriteEntry(currentLocationEntry)
     }
 
-    fun currentLocationEntry(): LocationEntry {
+    private fun currentLocationEntry(): LocationEntry {
         return LocationEntry(
             latLng = markerPosition.value,
-            address = address.value
+            addressLine = address.value?.displayString()
         )
     }
 

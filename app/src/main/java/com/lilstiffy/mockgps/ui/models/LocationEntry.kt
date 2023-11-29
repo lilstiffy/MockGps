@@ -1,14 +1,10 @@
 package com.lilstiffy.mockgps.ui.models
 
-import android.location.Address
+import androidx.annotation.Keep
 import com.google.android.gms.maps.model.LatLng
-import com.lilstiffy.mockgps.extensions.displayString
 
+@Keep
 data class LocationEntry(
     var latLng: LatLng,
-    var address: Address?
-) {
-    fun displayString(): String {
-        return address?.displayString() ?: "-"
-    }
-}
+    var addressLine: String? = null
+)

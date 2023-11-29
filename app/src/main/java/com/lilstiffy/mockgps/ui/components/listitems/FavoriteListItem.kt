@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.lilstiffy.mockgps.extensions.displayString
 import com.lilstiffy.mockgps.extensions.prettyPrint
 import com.lilstiffy.mockgps.ui.models.LocationEntry
+import com.lilstiffy.mockgps.ui.theme.FederalBlue
 import com.lilstiffy.mockgps.ui.theme.TextBody
 
 @Composable
@@ -34,6 +36,7 @@ fun FavoriteListItem(
             .fillMaxWidth()
             .clickable { onClick() }
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
         // Location section
         Row {
             Icon(
@@ -42,7 +45,7 @@ fun FavoriteListItem(
                     .width(32.dp)
                     .align(Alignment.CenterVertically),
                 imageVector = Icons.Filled.Home,
-                tint = Color.Blue,
+                tint = Color.Gray,
                 contentDescription = "address"
             )
 
@@ -52,13 +55,13 @@ fun FavoriteListItem(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .fillMaxWidth(0.85f),
-                style = TextBody,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 3,
-                text = locationEntry.displayString()
+                text = locationEntry.addressLine ?: "-"
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // Coordinates section
         Row {
@@ -68,7 +71,7 @@ fun FavoriteListItem(
                     .width(32.dp)
                     .align(Alignment.CenterVertically),
                 imageVector = Icons.Filled.Place,
-                tint = Color.Blue,
+                tint = Color.Red,
                 contentDescription = "coordinates"
             )
 
@@ -77,7 +80,7 @@ fun FavoriteListItem(
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterVertically),
-                style = TextBody,
+                color = MaterialTheme.colorScheme.onSurface,
                 text = locationEntry.latLng.prettyPrint()
             )
         }

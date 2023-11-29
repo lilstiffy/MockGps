@@ -1,18 +1,23 @@
 package com.lilstiffy.mockgps.ui.screens
 
+import android.os.Build
 import android.widget.Toast
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,17 +28,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.lilstiffy.mockgps.MainActivity
+import com.lilstiffy.mockgps.R
 import com.lilstiffy.mockgps.extensions.roundedShadow
 import com.lilstiffy.mockgps.service.LocationHelper
 import com.lilstiffy.mockgps.storage.StorageManager
@@ -43,8 +52,6 @@ import com.lilstiffy.mockgps.ui.components.SearchComponent
 import com.lilstiffy.mockgps.ui.screens.viewmodels.MapViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-//TODO: General todo throughout the app is to support both dark and light mode.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,6 +68,11 @@ fun MapScreen(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    val MapStyle = if (isSystemInDarkTheme())
+        MapStyleOptions.loadRawResourceStyle(LocalContext.current, R.raw.style_json)
+    else
+        MapStyleOptions("")
 
     fun animateCamera() {
         scope.launch(Dispatchers.Main) {
@@ -81,6 +93,9 @@ fun MapScreen(
                 LocationHelper.requestPermissions(activity)
                 mapViewModel.updateMarkerPosition(mapViewModel.markerPosition.value)
             },
+            properties = MapProperties(
+                mapStyleOptions = MapStyle
+            ),
             uiSettings = MapUiSettings(
                 tiltGesturesEnabled = false,
                 myLocationButtonEnabled = false,
@@ -99,14 +114,16 @@ fun MapScreen(
             )
         }
 
-        Column {
+        Column(
+            modifier = Modifier.statusBarsPadding()
+        ) {
             SearchComponent(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxHeight(0.075f)
                     .fillMaxWidth()
                     .padding(4.dp)
-                    .roundedShadow(8.dp)
+                    .roundedShadow(32.dp)
                     .zIndex(32f),
                 onSearch = { searchTerm ->
                     // We don't want to support switching locations while already mocking
@@ -124,12 +141,14 @@ fun MapScreen(
                 }
             )
 
+            // Favorites button.
             IconButton(
                 modifier = Modifier
+                    .padding(horizontal = 12.dp)
                     .align(Alignment.End),
                 onClick = { showBottomSheet = true },
                 colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.White, contentColor = Color.Gray
+                    containerColor = Color.Blue, contentColor = Color.White
                 )
             ) {
                 Icon(
@@ -143,9 +162,10 @@ fun MapScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth(1f)
+                .navigationBarsPadding()
                 .padding(4.dp)
                 .zIndex(32f)
-                .roundedShadow(8.dp),
+                .roundedShadow(16.dp),
             address = mapViewModel.address.value,
             latLng = mapViewModel.markerPosition.value,
             isMocking = isMocking,
@@ -160,7 +180,14 @@ fun MapScreen(
                     showBottomSheet = false
                 },
                 sheetState = sheetState,
-                data = StorageManager.favorites
+                data = StorageManager.favorites,
+                onEntryClicked = { clickedEntry ->
+                    mapViewModel.apply {
+                        mapViewModel.updateMarkerPosition(clickedEntry.latLng)
+                        showBottomSheet = false
+                        animateCamera()
+                    }
+                }
             )
         }
 

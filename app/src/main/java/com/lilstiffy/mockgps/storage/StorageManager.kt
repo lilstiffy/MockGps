@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lilstiffy.mockgps.extensions.equalTo
 import com.lilstiffy.mockgps.service.LocationHelper
 import com.lilstiffy.mockgps.ui.models.LocationEntry
 
@@ -47,12 +48,12 @@ object StorageManager {
 
     private fun removeFavorite(locationEntry: LocationEntry) {
         val tempFavorites = favorites
-        tempFavorites.remove(locationEntry)
+        tempFavorites.removeIf { it.latLng.equalTo(locationEntry.latLng) }
         favorites = tempFavorites
     }
 
     fun containsFavoriteEntry(locationEntry: LocationEntry): Boolean {
-        return favorites.map { it.latLng == locationEntry.latLng }.any()
+        return favorites.any { it.latLng.equalTo(locationEntry.latLng) }
     }
 
     private var locationHistory: MutableList<LatLng>

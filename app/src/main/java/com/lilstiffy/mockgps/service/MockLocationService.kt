@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.lilstiffy.mockgps.MockGpsApp
 import com.lilstiffy.mockgps.storage.StorageManager
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +32,6 @@ class MockLocationService : Service() {
         private set
 
     lateinit var latLng: LatLng
-    var listener: LocationListener? = null
 
     private val locationManager by lazy {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -60,18 +60,9 @@ class MockLocationService : Service() {
         if (isMocking) stopMockingLocation() else startMockingLocation()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     @SuppressLint("MissingPermission")
     private fun startMockingLocation() {
-        //Permission already checked before hand.
-        listener?.let {
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                50L,
-                0f,
-                it
-            )
-        }
-
         // Will be added to location history if not existing.
         StorageManager.addLocationToHistory(latLng)
 
@@ -157,7 +148,7 @@ class MockLocationService : Service() {
                 mockLocation
             )
             // Sleep for a duration to simulate location update frequency
-            kotlinx.coroutines.delay(300L)
+            kotlinx.coroutines.delay(200L)
         }
     }
 

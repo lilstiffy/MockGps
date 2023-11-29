@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lilstiffy.mockgps.service.LocationHelper
+import com.lilstiffy.mockgps.ui.models.LocationEntry
 
 object StorageManager {
     private const val PREF = "gpsprefs"
@@ -31,23 +32,27 @@ object StorageManager {
         }
     }
 
-    fun toggleFavoriteForPosition(latLng: LatLng) {
-        if (favorites.contains(latLng))
-            removeFavorite(latLng)
+    fun toggleFavoriteForPosition(locationEntry: LocationEntry) {
+        if (containsFavoriteEntry(locationEntry))
+            removeFavorite(locationEntry)
         else
-            addLocationToFavorites(latLng)
+            addLocationToFavorites(locationEntry)
     }
 
-    private fun addLocationToFavorites(latLng: LatLng) {
+    private fun addLocationToFavorites(locationEntry: LocationEntry) {
         val tempFavorites = favorites
-        tempFavorites.add(latLng)
+        tempFavorites.add(locationEntry)
         favorites = tempFavorites
     }
 
-    private fun removeFavorite(latLng: LatLng) {
+    private fun removeFavorite(locationEntry: LocationEntry) {
         val tempFavorites = favorites
-        tempFavorites.remove(latLng)
+        tempFavorites.remove(locationEntry)
         favorites = tempFavorites
+    }
+
+    fun containsFavoriteEntry(locationEntry: LocationEntry): Boolean {
+        return favorites.map { it.latLng == locationEntry.latLng }.any()
     }
 
     private var locationHistory: MutableList<LatLng>
@@ -64,10 +69,10 @@ object StorageManager {
             }
         }
 
-    var favorites: MutableList<LatLng>
+    var favorites: MutableList<LocationEntry>
         get() {
             val json = pref.getString(KEY_FAVORITES, "[]")
-            val typeToken = object : TypeToken<MutableList<LatLng>>() {}.type
+            val typeToken = object : TypeToken<MutableList<LocationEntry>>() {}.type
             return Gson().fromJson(json, typeToken)
         }
         private set(value) {

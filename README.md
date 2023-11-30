@@ -23,3 +23,7 @@ This Android app allows users to mock their device's location, providing a conve
 1. Clone the repository or download the APK file.
    ```bash
    git clone https://github.com/lilstiffy/mock-location-app.git
+
+### Screenshots (Dark / Light)
+
+<img src="demo_image.png" width="50%"><img src="demo_image_light.png" width="50%">

@@ -100,7 +100,8 @@ fun MapScreen(
                 tiltGesturesEnabled = false,
                 myLocationButtonEnabled = false,
                 zoomControlsEnabled = false,
-                mapToolbarEnabled = false
+                mapToolbarEnabled = false,
+                compassEnabled = false
             ),
             onMapClick = { latLng ->
                 if (!isMocking) {

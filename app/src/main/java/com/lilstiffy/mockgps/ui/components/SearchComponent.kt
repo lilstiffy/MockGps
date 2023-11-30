@@ -76,8 +76,7 @@ fun SearchComponent(
         IconButton(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .fillMaxHeight()
-                .padding(8.dp),
+                .padding(horizontal = 8.dp),
             onClick = { onSearch(text) },
             colors = IconButtonDefaults.iconButtonColors(
                 containerColor = Color.Blue, contentColor = Color.White
@@ -85,8 +84,7 @@ fun SearchComponent(
         ) {
             Icon(
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(8.dp),
+                    .align(Alignment.Center),
                 imageVector = Icons.Filled.Search,
                 contentDescription = "search"
             )

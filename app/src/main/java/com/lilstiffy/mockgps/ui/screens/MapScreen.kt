@@ -182,6 +182,10 @@ fun MapScreen(
                 sheetState = sheetState,
                 data = StorageManager.favorites,
                 onEntryClicked = { clickedEntry ->
+                    if (isMocking) {
+                        Toast.makeText(activity, "You can't switch location while mocking", Toast.LENGTH_SHORT).show()
+                        return@FavoritesListComponent
+                    }
                     mapViewModel.apply {
                         mapViewModel.updateMarkerPosition(clickedEntry.latLng)
                         showBottomSheet = false

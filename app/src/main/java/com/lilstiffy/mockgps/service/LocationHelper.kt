@@ -13,8 +13,7 @@ import com.lilstiffy.mockgps.MockGpsApp
 
 object LocationHelper {
     private const val REQUEST_CODE = 69
-    val DEFAULT_LOCATION = LatLng(56.1711569, 14.8612297)
-
+    val DEFAULT_LOCATION = LatLng(40.758896, -73.985130)
     fun requestPermissions(activity: ComponentActivity) {
         activity.requestPermissions(
             arrayOf(

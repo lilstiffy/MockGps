@@ -2,14 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
     <!-- For GPS Location mocking purposes -->
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_MOCK_LOCATION"
         tools:ignore="MockLocation,ProtectedPermissions" />
 
     <application
@@ -25,9 +27,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MockGps"
-            android:screenOrientation="portrait">
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,13 +38,15 @@
         </activity>
 
         <!-- Really bad remove -->
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCi2zGLGQvGFo0FqiQrIosK8sYB0c5dylA"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCi2zGLGQvGFo0FqiQrIosK8sYB0c5dylA" />
 
         <service
             android:name=".service.MockLocationService"
             android:enabled="true"
-            android:foregroundServiceType="location"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

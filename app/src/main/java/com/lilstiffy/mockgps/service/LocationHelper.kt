@@ -13,7 +13,7 @@ import com.lilstiffy.mockgps.MockGpsApp
 
 object LocationHelper {
     private const val REQUEST_CODE = 69
-    val DEFAULT_LOCATION = LatLng(56.1711569, 14.8612297)
+    val DEFAULT_LOCATION = LatLng(40.712776, -74.005974)
 
     fun requestPermissions(activity: ComponentActivity) {
         activity.requestPermissions(
@@ -30,7 +30,7 @@ object LocationHelper {
 
     // Geocoding
     fun reverseGeocoding(latLng: LatLng, result: (Address?) -> Unit) {
-        val geocoder: Geocoder = Geocoder(MockGpsApp.shared.applicationContext)
+        val geocoder = Geocoder(MockGpsApp.shared.applicationContext)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1) { response ->

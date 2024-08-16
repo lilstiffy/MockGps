@@ -22,8 +22,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/Theme.MockGps"
-        tools:targetApi="31">
+        android:theme="@style/Theme.MockGps">
         <activity
             android:name=".MainActivity"
             android:exported="true"

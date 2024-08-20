@@ -23,7 +23,7 @@ android {
         versionCode = 5
         versionName = "1.0.4"
 
-        manifestPlaceholders["API_KEY"] = props.getProperty("MAPS_API_KEY")
+        manifestPlaceholders["API_KEY"] = props.getProperty("MAPS_API_KEY") ?: ""
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -36,10 +36,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Really bad remove -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCi2zGLGQvGFo0FqiQrIosK8sYB0c5dylA" />
+            android:value="${API_KEY}" />
 
         <service
             android:name=".service.MockLocationService"

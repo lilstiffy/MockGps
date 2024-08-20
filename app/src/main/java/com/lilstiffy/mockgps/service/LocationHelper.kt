@@ -1,6 +1,7 @@
 package com.lilstiffy.mockgps.service
 
-import android.Manifest.permission.*
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -25,7 +26,10 @@ object LocationHelper {
     }
 
     fun hasPermission(activity: ComponentActivity): Boolean {
-        return ContextCompat.checkSelfPermission(activity, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            activity,
+            ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     // Geocoding

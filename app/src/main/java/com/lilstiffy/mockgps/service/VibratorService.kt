@@ -12,7 +12,8 @@ object VibratorService {
 
     fun initialise(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            vibrator_s = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrator_s =
+                context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
         } else {
             vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         }

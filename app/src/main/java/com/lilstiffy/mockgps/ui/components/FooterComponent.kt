@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.sharp.Favorite
 import androidx.compose.material.icons.sharp.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.android.gms.maps.model.LatLng
@@ -41,7 +38,6 @@ import com.lilstiffy.mockgps.service.VibratorService
 import com.lilstiffy.mockgps.ui.theme.ButtonGreen
 import com.lilstiffy.mockgps.ui.theme.ButtonRed
 import com.lilstiffy.mockgps.ui.theme.Gold
-import com.lilstiffy.mockgps.ui.theme.TextBody
 
 @Composable
 fun FooterComponent(
@@ -51,13 +47,14 @@ fun FooterComponent(
     isMocking: Boolean,
     isFavorite: Boolean = false,
     onStart: () -> Unit,
-    onFavorite: () -> Unit
+    onFavorite: () -> Unit,
 ) {
-    Box(modifier = modifier
-        .background(
-            color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(16.dp)
-        )
+    Box(
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(16.dp)
+            )
     ) {
         Column(
             modifier = Modifier
@@ -141,7 +138,7 @@ fun FooterComponent(
                         contentDescription = "toggle favorite"
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.width(16.dp))
 
                 // Toggle mocking button

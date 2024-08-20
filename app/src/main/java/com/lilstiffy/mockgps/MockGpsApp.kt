@@ -1,11 +1,10 @@
 package com.lilstiffy.mockgps
 
 import android.app.Application
-import android.os.VibratorManager
 import com.lilstiffy.mockgps.service.VibratorService
 import com.lilstiffy.mockgps.storage.StorageManager
 
-class MockGpsApp: Application() {
+class MockGpsApp : Application() {
     companion object {
         lateinit var shared: MockGpsApp
             private set

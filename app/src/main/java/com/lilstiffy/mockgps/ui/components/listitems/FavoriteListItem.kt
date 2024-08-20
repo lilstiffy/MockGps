@@ -19,17 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.lilstiffy.mockgps.extensions.displayString
 import com.lilstiffy.mockgps.extensions.prettyPrint
 import com.lilstiffy.mockgps.ui.models.LocationEntry
-import com.lilstiffy.mockgps.ui.theme.FederalBlue
-import com.lilstiffy.mockgps.ui.theme.TextBody
 
 @Composable
 fun FavoriteListItem(
     modifier: Modifier = Modifier,
     locationEntry: LocationEntry,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier

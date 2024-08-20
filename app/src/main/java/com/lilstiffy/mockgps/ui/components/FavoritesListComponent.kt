@@ -30,18 +30,19 @@ fun FavoritesListComponent(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     data: List<LocationEntry>,
-    onEntryClicked: (entry: LocationEntry) -> Unit
+    onEntryClicked: (entry: LocationEntry) -> Unit,
 ) {
     ModalBottomSheet(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.75f),
-        onDismissRequest =  onDismissRequest,
+        onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        windowInsets = WindowInsets(0,0,0,0)
+        windowInsets = WindowInsets(0, 0, 0, 0)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 8.dp)
         ) {
             // Title

@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MapScreen(
     mapViewModel: MapViewModel = viewModel(),
-    activity: MainActivity
+    activity: MainActivity,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -83,7 +83,7 @@ fun MapScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier.fillMaxSize()) {
         // Google maps
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
@@ -127,7 +127,11 @@ fun MapScreen(
                 onSearch = { searchTerm ->
                     // We don't want to support switching locations while already mocking
                     if (isMocking) {
-                        Toast.makeText(activity, "You can't search while mocking location", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "You can't search while mocking location",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return@SearchComponent
                     }
 
@@ -182,7 +186,11 @@ fun MapScreen(
                 data = StorageManager.favorites,
                 onEntryClicked = { clickedEntry ->
                     if (isMocking) {
-                        Toast.makeText(activity, "You can't switch location while mocking", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity,
+                            "You can't switch location while mocking",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return@FavoritesListComponent
                     }
                     mapViewModel.apply {

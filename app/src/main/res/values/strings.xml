@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MockGps</string>
+    <string name="mocker_tile_title">Mock latest</string>
 </resources>

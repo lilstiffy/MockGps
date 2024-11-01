@@ -45,6 +45,17 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
+
+        <service
+            android:name=".service.MockerTileService"
+            android:exported="true"
+            android:label="@string/mocker_tile_title"
+            android:icon="@drawable/ic_gps_crosshair"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -16,17 +16,16 @@ class MockerTileService : TileService() {
 
     override fun onClick() {
         super.onClick()
-        StorageManager.initialise(this).also {
-            MockLocationService.instance?.let { service ->
-                service.toggleMocking().also {
-                    if (service.isMocking) {
-                        qsTile.state = Tile.STATE_ACTIVE
-                        qsTile.updateTile()
-                    } else {
-                        qsTile.state = Tile.STATE_INACTIVE
-                        qsTile.updateTile()
-                    }
+        MockLocationService.instance?.let { service ->
+            service.toggleMocking().also {
+                if (service.isMocking) {
+                    qsTile.state = Tile.STATE_ACTIVE
+                    qsTile.updateTile()
+                } else {
+                    qsTile.state = Tile.STATE_INACTIVE
+                    qsTile.updateTile()
                 }
+
             }
         }
     }

@@ -30,7 +30,12 @@ class MockLocationService : Service() {
     var isMocking = false
         private set
 
-    lateinit var latLng: LatLng
+    var latLng: LatLng = LatLng(0.0, 0.0)
+        get() = StorageManager.getLatestLocation()
+        set(value) {
+            StorageManager.addLocationToHistory(value)
+            field = value
+        }
 
     private val locationManager by lazy {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
